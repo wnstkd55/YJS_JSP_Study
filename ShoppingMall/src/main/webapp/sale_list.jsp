@@ -12,9 +12,11 @@
 </HEAD>
 <BODY>
 
-<!-- DB 연결 설정 --> 
+<!-- DB 연결 설정 
 <%@ include file = "dbconn_mysql.jsp" %>
-
+<%@ include file = "dbconn_oracle.jsp" %>
+-->
+<%@ include file = "dbconn_mssql.jsp" %>
 
 <P align=center>
  <FONT color=#0000ff face=굴림 size=+1>

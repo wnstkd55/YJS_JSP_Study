@@ -4,19 +4,32 @@
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <% request.setCharacterEncoding("euc-kr"); %>
 
-<!-- DB 연결 설정 --> 
+<!-- DB 연결 설정 
 <%@ include file = "dbconn_mysql.jsp" %>
-
+<%@ include file = "dbconn_oracle.jsp" %>
+-->
+<%@ include file = "dbconn_mssql.jsp" %>
 
 <%
- String fileurl= "C:\\YJS_JSP2\\ShoppingMall\\src\\main\\webapp\\upload";
+//이미지 파일이 업로드 되는 실제 톰캣의 물리적인 경로
+ String fileurl= application.getRealPath("upload");
+
+/*
+out.println("이클립스의 물리적인 경로: "+fileurl);
+
+String upload = application.getRealPath("upload");
+out.print("<p><p>이클립스 톰캣의 물리적인 경로: "+upload);
+
+if(true) return;	//확인을 위한 프로그램 중지
+*/
  String saveFolder="upload";
  String encType="euc-kr";
- int Maxsize = 5*1024*1024*1024;
+ int Maxsize = 5*1024*1024*1024;	//최대업로드 용량 : 5GB
  
  ServletContext context = getServletContext();
  MultipartRequest multi = null;
  DefaultFileRenamePolicy policy = new DefaultFileRenamePolicy();
+ 	//업로드 폴더데 동일한 이름의 파일이 존재 할 경우 파일이름명 뒤에 번호 할당해서 업로드
  multi = new MultipartRequest(request,fileurl,Maxsize,encType,policy);
  
  String wn = multi.getParameter("wname");
@@ -28,9 +41,17 @@
  int stock = Integer.parseInt(multi.getParameter("stock"));
  String des = multi.getParameter("description");
  
- long id = 0;
- int pos=0;
+ /*
+ out.print(wn );out.println(cat );out.print(pn );out.print(sn );
+ out.print(price );out.print(dprice );out.print(wn );out.print(stock );out.print(des ); 
+ if(true)return;
+ */
  
+ long id = 0;		//상품의 고유 번호 할당
+ int pos=0;
+ 	//상품 설명이 들어간 컬럼에 ' 가 들어가면 DB에 저장시 오류가 발생
+ 	//DB에 값을 넣을때 ' 도 처리해서 DB에 저장되도록 설정
+ 	
  while ((pos=des.indexOf("\'", pos)) != -1) {
   String left=des.substring(0, pos);
   String right=des.substring(pos, des.length());
@@ -41,7 +62,7 @@
  java.util.Date yymmdd = new java.util.Date() ;
  SimpleDateFormat myformat = new SimpleDateFormat("yy-MM-d h:mm a");
  
- String ymd=myformat.format(yymmdd);
+ String ymd=myformat.format(yymmdd);	//ymd : 년 월 일
  
  String sql=null;
  //Connection con=null;
@@ -55,12 +76,12 @@
   
   st = conn.createStatement();
   sql = "select max(id) from  product where category= '"+cat+"'";
- 
+ 		//DB의 ID(상품의 고유번호) : 기존의 category의 최대값을 가져와서 + 1 해서 상품 고유 번호 할당.
   rs = st.executeQuery(sql);
   rs.next();
-  id= rs.getLong(1);
+  id= rs.getLong(1);		//id는 카테고리의 최대값
  
-  if (id==0) 
+  if (id==0) //가져온 레코드가 0 일 경우 category컬럼의 상품이 존재하지 않을 경우
    id=Integer.parseInt(cat+"00001");
   else    
    id= id + 1 ;

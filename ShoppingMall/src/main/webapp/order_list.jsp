@@ -5,9 +5,11 @@
 <HEAD><TITLE>주문서 내역</TITLE></HEAD>
 <BODY>
 
-<!-- DB 연결 설정 --> 
+<!-- DB 연결 설정 
 <%@ include file = "dbconn_mysql.jsp" %>
-
+<%@ include file = "dbconn_oracle.jsp" %>
+-->
+<%@ include file = "dbconn_mssql.jsp" %>
 
 [<A href="shop_list.jsp">쇼핑 목록으로 </A>]
 <%

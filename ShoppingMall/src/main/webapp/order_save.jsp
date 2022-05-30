@@ -2,9 +2,11 @@
 <%@ page language="java" import="java.sql.*,java.util.*,java.text.*" %> 
 <% request.setCharacterEncoding("euc-kr"); %>
 
-<!-- DB 연결 설정 --> 
+<!-- DB 연결 설정 
 <%@ include file = "dbconn_mysql.jsp" %>
-
+<%@ include file = "dbconn_oracle.jsp" %>
+-->
+<%@ include file = "dbconn_mssql.jsp" %>
 
 <%
  session = request.getSession();
@@ -52,13 +54,17 @@
    id= rs.getLong(1) + 1 ;
   else 
    id=1;
-
+//변수를 받아서 값을 넣기(saleorder 테이블)
+	//주문 테이블 : 상품 구매 종류, 가격
   sql= "insert into saleorder(id,name,orderdate,addr,tel," ;
   sql= sql + "pay,cardno,prodcount,total)" ; 
   sql= sql + " values("+id+",'"+wname+"','"+ymd+"','"+addr+"','"+tel  ;
   sql= sql + "','" + pay + "','" + cardno + "',"+count+","+total+")" ;
   cnt = st.executeUpdate(sql);
  
+  
+//item 테이블 : 
+	//상품 주문의 자세한 정보가 저장, 구매한 상품명, 판매가격, 갯수
   if (cnt >0) {
    for (int i=0; i< a.length ;i++) {
     long pid =Long.parseLong(a[i].trim());
