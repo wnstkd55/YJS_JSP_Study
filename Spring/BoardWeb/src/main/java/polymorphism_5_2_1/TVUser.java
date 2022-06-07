@@ -1,4 +1,4 @@
-package polymorphism_4_3_1;
+package polymorphism_5_2_1;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -27,6 +27,8 @@ public class TVUser {
 		tv.powerOff();
 		tv.volumeUp();
 		tv.volumeDown();
+		
+		
 		
 		factory.close(); 		//메모리에서 객체 제거
 
