@@ -48,7 +48,7 @@ public class BoardVO {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
-	
+
 	public String toString() {	//객체 자체를 출력시 객체의 주소를 출력하는것이 아니라 객체의 메모리의 값을 출력
 		return "BoardVO [seq = "+seq+", title = "+title+", writer = "+writer+", content = "+content
 				+", regdate = "+regdate+", cnt = "+cnt;
