@@ -10,9 +10,96 @@
 <!-- 어노테이션 기반 사용 설정: com.springbook.biz 패키지 하위의 모든 클래스의 어노테이션을 게더링함 -->
 <context:component-scan base-package="com.springbook.biz"></context:component-scan>
 
-<bean id = "log" class = "com.springbook.biz.common.AroundAdvice"></bean>
+<!-- AOP 어노테이션을 검색할 수 있도록 설정 
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+-->
+<!-- DataSource 설정 2. (기본셋팅) :(프로퍼티 파일을 사용한 설정) -->
+<context:property-placeholder location="classpath:config/database.properties"/>
+<bean id = "dataSource" class = "org.apache.commons.dbcp.BasicDataSource" destroy-method = "close">
+	<property name = "driverClassName" value = ${jdbc.driver}/>
+	<property name = "url" value = "${jdbc.url}"/>
+	<property name = "username" value = "${jdbc.id}"/>
+	<property name = "password" value = "${jdbc.password}"/>
+</bean>
 
-<!-- AOP 설정 -->
+<!-- Spring JDBC 설정 : JDBCTemplate 객체 생성 -->
+<bean id = "jdbcTemplate" class = "org.springframework.jdbc.core.JdbcTemplate">
+	<property name = "dataSource" ref = "dataSrouce"/>
+</bean>
+
+
+<!-- DataSource 설정 1. (기본셋팅) : DB연동할때 사용, JDBCTemplate, mybatis, JPA 연동시 사용 
+<bean id = "dataSource" class = "org.apache.commons.dbcp.BasicDataSource" destroy-method = "close">
+	<property name = "driverClassName" value = "org.h2.Driver"/>
+	<property name = "url" value = "jdbc:h2:tcp://localhost/~/test"/>
+	<property name = "username" value = "sa"/>
+	<property name = "password" value = ""/>
+</bean>
+-->
+<!-- AroundAdvice2 : JoinPoint와 바인드 변수 
+<bean id = "log" class = "com.springbook.biz.common.AroundAdvice2"></bean>
+-->
+<!-- AroundAdvice2 AOP 설정 
+<aop:config>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.*(..))" id="allPointcut"/>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.get*(..))" id="getPointcut"/> 
+
+	<aop:aspect ref = "log">
+		<aop:around pointcut-ref = "allPointcut" method="aroundLog"/>
+	</aop:aspect>
+	
+</aop:config>
+-->
+
+<!-- AfterThrowingAdvice2 : JoinPoint와 바인드 변수 
+<bean id = "log" class = "com.springbook.biz.common.AfterThrowingAdvice2"></bean>
+-->
+<!-- AfterThrowingAdvice2 AOP 설정 
+<aop:config>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.*(..))" id="allPointcut"/>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.get*(..))" id="getPointcut"/> 
+
+	<aop:aspect ref = "log">
+		<aop:after-throwing pointcut-ref = "allPointcut" method="exceptionLog" throwing = "exceptionObj"/>
+	</aop:aspect>
+	
+</aop:config>
+-->
+
+<!-- AfterReturningAdvice2 : JoinPoint와 바인드 변수 
+<bean id = "log" class = "com.springbook.biz.common.AfterReturningAdvice2"></bean>
+-->
+<!-- AfterReturningAdvice2 AOP 설정 
+<aop:config>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.*(..))" id="allPointcut"/>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.get*(..))" id="getPointcut"/> 
+
+	<aop:aspect ref = "log">
+		<aop:after-returning pointcut-ref = "allPointcut" method="afterReturningLog" returning = "returnObj"/>
+	</aop:aspect>
+	
+</aop:config>
+-->
+
+<!-- BeforeAdvice2 : JoinPoint와 바인드 변수
+<bean id = "log" class = "com.springbook.biz.common.BeforeAdvice2"></bean>
+ -->
+<!-- BeforeAdvice2 AOP 설정 
+<aop:config>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.*(..))" id="allPointcut"/>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.get*(..))" id="getPointcut"/> 
+
+	<aop:aspect ref = "log">
+		<aop:before pointcut-ref = "allPointcut" method="beforeLog"/>
+	</aop:aspect>
+	
+</aop:config>
+-->
+
+<!-- 
+<bean id = "log" class = "com.springbook.biz.common.BeforeAdvice"></bean>
+ -->
+<!-- AOP 설정 
 <aop:config>
 	
 	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.*(..))" id="allPointcut"/>
@@ -20,11 +107,11 @@
 	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.get*(..))" id="getPointcut"/> 
 	
 	<aop:aspect ref = "log">
-		<aop:around pointcut-ref = "allPointcut" method="aroundLog"/>
+		<aop:before pointcut-ref = "allPointcut" method="beforeLog"/>
 		
 	</aop:aspect>
 </aop:config>
-
+-->
 
 <!-- Setter를 사용한 객체 주입: UserServiceImpl.java 설정 
 <bean id = "userService" class = "com.springbook.biz.impl.UserServiceImpl">

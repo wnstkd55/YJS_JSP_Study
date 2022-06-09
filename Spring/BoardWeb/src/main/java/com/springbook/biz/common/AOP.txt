@@ -9,6 +9,7 @@ AOP : 응집도를 높이는 기술, 반복되는 코드의 응집도를 높여서 적용.
  - 조인 포인트 : AOP가 호출하는 비즈니스 메소드, BoardServiceImpl 클래스의 메소드들,
  		- UserServiceImpl 클래스 내부의 메소드들
  - 포인트컷 : 필터링된 조인포인트
+ - aspect : Advice(빈등록) + Pointcut 결합시킴
  	expression="execution(* com.springbook.biz..*Impl.*(..))"
  	
  		*							: 리턴타입
@@ -28,6 +29,23 @@ advice의 동작 시점 :
 		- After-Throwing : 예외가 발생되면 작동
 		- After : 비즈니스 메소드(핵심관심) 실행 후 실행
 	- Around : 비즈니스 메소드 싫애 후 실행됨.
+
+JoinPoint 와 바인드 변수
+	- JoinPoint(인터페이스) : 정의된 메소드를 사용하면 AOP에서 다양한 정보를 알아올 수 있다.
+	
+	- Signature getSignature() : 클라이언트가 호출한 메소드의 시그니쳐 정보가 저장된 Signature객체를 리턴
+	- Object getTarget() : 클라이언트가 호출한 비즈니스 메소드를 포함하는 비즈니스 객체 리턴
+	- Object [] getArgs() : 클라이언트가 메소드를 호출할때 넘겨준 인자목록으로 Object배열로 리턴
+	
+	Before, After Returning, After Throwing, After <== JoinPoint를 사용
+	Around <== ProceedingJoinPoint를 매개변수로 사용해야함.
+	
+	getSignature() 메소드를 사용하면 다양한 정보를 알 수 있다.
+		- String getName() : 클라이언트가 호출한 메소드 이름을 리턴
+		- String toLongString() : 클라이언트가 호출한 메소드의 리턴타입, 이름, 매개변수를 패키지 경로까지 포함하여 리턴
+		- String toShortString() : 클라이언트가 호출한 메소드 시그니쳐를 축약한 문자열로 리턴
+
+	
 	1. AOP 라이브러리 설치 (pom.xml)
 		<!-- AOP 라이브러리 추가 -->
 		<dependency>
@@ -56,3 +74,40 @@ advice의 동작 시점 :
 			</aop:aspect>
 		</aop:config>
 		
+-----------------------------------------------------------------------------------------------------------------
+
+어노테이션 기반 AOP
+
+1. Bean 설정 파일에서 구성(applicationContext.xml)
+<!-- AOP어노테이션을 검색할 수 있도록 설정 -->
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+2. Advice 클래스에서 어노테이션 사용.
+	@Service
+	@Aspect		// Pointcut + Advice
+	
+	@Pointcut("execution(* com.springbook.biz..*Impl.*(..))")
+	public void allPointCut() {}
+	
+	@Before("allPointCut()")
+	
+3. Advice 시작 어노테이션들	(Advice메소드 위에 설정함, 포인터컷이 등록되어야함)
+	- @Before("포인트컷메소드()") 	: 비즈니스 메소드 시작전 작동
+	- @AfterReturning			: 비즈니스 메소드의 리턴이 성공적으로 되면 작동
+	- @AfterThrowing			: 비즈니스 메소드의 예외가 발생되면 작동
+	- @After					: 비즈니스 메소드 이후에 작동
+	- @Around					: 비즈니스 메소드 전과 후에 작동 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
