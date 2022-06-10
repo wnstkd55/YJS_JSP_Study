@@ -9,22 +9,28 @@ import com.springbook.biz.user.UserVO;
 @Repository("userDAOSpring")
 public class UserDAOSpring {
 	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	@Autowired			//jdbcTemplate 객체 활성화 
+	private JdbcTemplate jdbcTemplate;  
 	
-	private String USER_GET = "SELECT * FROM users WHERE id = ? AND password = ?";
-	private String USER_INSERT = "INSERT INTO users VALUES (?, ?, ?, ?)";
 	
-	//1. 유저 상세목록
+	private String USER_GET = "select * from users where id = ? and password = ?";
+	private String INSERT_USER = "insert into users values (?,?,?,?)"; 
+
+	//글 상세 목록 출력
 	public UserVO getUser(UserVO vo) {
-		System.out.println("==>Spring JDBC로 getUser()기능 처리");
-		Object[]args = {vo.getId(),vo.getPassword()};
-		return jdbcTemplate.queryForObject(USER_GET,args,new UserRowMapper());
-	}
-	//2. 유저 가입
-	public void insertUsesr(UserVO vo) {
-		System.out.println("==>Spring JDBC로 insertUser() 기능 처리");
-		jdbcTemplate.update(USER_INSERT,vo.getId(),vo.getPassword(),vo.getName(),vo.getRole());
+		System.out.println("===> Spring JDBC로 getUser() 기능 구현");
+		Object[] args = {vo.getId(), vo.getPassword()};
+		return jdbcTemplate.queryForObject(USER_GET, args, new UserRowMapper());
 	}
 	
+	//글 등록 
+	
+	public void insertUser(UserVO vo) {
+		System.out.println("===> Spring JDBC로 insertUser() 기능 구현");
+		jdbcTemplate.update(INSERT_USER, vo.getId(),vo.getPassword(),vo.getName(),vo.getRole());
+	}
+	
+	
+	
+
 }
