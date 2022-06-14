@@ -30,32 +30,28 @@ import com.springbook.biz.user.impl.UserDAO;
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private HandlerMapping handlerMapping;		//객체 변수 선언
-	private ViewResolver viewResolver;			//객체 변수 선언
+	private HandlerMapping handerMapping; //객체 변수 선언 
+	private ViewResolver viewResolver;    //객체 변수 선언 
 	
-	//HttpServlet 클래스의 init()메소드 재정의 : 톰켓서버가 실행될때 init메소드가 호출됨.
-		//init() 메소드는 초기값을 설정하는 메소드
+	//HttpServlet 클래스의 init() 메소드 재정의 : 톰켓서버가 실행될때 init 메소드가 호출됨 
+		//init() 메소드는 초기값을 설정을 하는 메소드
+	
 	@Override
-	public void init() throws ServletException{
-		System.out.println("톰캣 서비스 시작시 호출 - init()");
-		handlerMapping = new HandlerMapping();
-		viewResolver = new ViewResolver();
+	public void init() throws ServletException {
+		System.out.println("톰캣 서비스 시작시 호출 -  init()");
+		handerMapping = new HandlerMapping(); 
+		viewResolver = new ViewResolver(); 
 		
 		viewResolver.setPrefix("./");
-		viewResolver.setSuffix(".jsp");
-		
-		
-		
+		viewResolver.setSuffix(".jsp"); 	
 	}
-	
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//클라이언트에서 Get 방식으로 들어오는 모든 요청을 process 메소드에서 처리하도록 던져줌
 		process (request,response); 
 		
 	}
-
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//클라이언트에서 Post 방식으로 들어오는 모든 요청을 process 메소드에서 처리하도록 던져줌
 		request.setCharacterEncoding("EUC-KR");
@@ -66,29 +62,33 @@ public class DispatcherServlet extends HttpServlet {
 		//1. 클라이언트의 요청 path 정보를 추출 
 		String uri = request.getRequestURI(); 
 		String path = uri.substring(uri.lastIndexOf("/"));   
-				//path : 클라이언트 요청 (*.do), login.do, logout.do, insertBoard.do....
+				//path : 클라이언트 요청 (*.do), login.do, logout.do, insertBoard.do...
 		System.out.println(path);      
 		
-		//2. HandlerMapping을 통해서 path에 해당하는 Controller를 요청한다.
-				//ctrl은 클라이언트 요청 정보에 대한 Controller 객체를 리턴받아옴
-		Controller ctrl = handlerMapping.getController(path);
-		//3. 검색된 Controller 를 실행한다.
-		String viewName = ctrl.handlerRequest(request, response);
+		//2. HandlerMapping을 통해서 path 에 해당하는 Controller를 검색 함
+			//ctrl 는 클라이언트 요청 정보에 대한 Controller 객체를 리턴 받아옴 
+		Controller ctrl = handerMapping.getController(path); 
 		
-	
-		//4. 뷰페이지 이름을 완성해서 처리
-		String view = null;
-		if(!viewName.contains(".do")) {
-			view=viewResolver.getView(viewName);
+		//3. 검색된 Controller를 실행 한다. 리턴 값으로 뷰페이지를 리턴 받아온다. 
+			//viewName : view 페이지가 들어 있다. 
+		String viewName = ctrl.handlerRequest(request, response); 
+			
+		//4. 뷰 페이지 이름을 완성 해서 처리 
+		String view = null; 
+		if (!viewName.contains(".do")) {
+			view = viewResolver.getView(viewName); 
+		}else {
+			view = viewName ;    //login.do , logout.do
 		}
+			
+		//5. 검색된 뷰페이지로 이동 
+		response.sendRedirect(view); 
 		
-		//5. 검색된 화면으로 이동
-	
 		
+		}
 		
 		
 	}
 	
 
 
-}

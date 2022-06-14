@@ -3,7 +3,7 @@ package com.springbook.biz.view.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HandlerMapping {
+public class HandlerMapping {	//클라이언트 요청에 대한 Controller 매핑 
 	
 	private Map<String, Controller> mappings;   //객체 변수 선언 (Map는 인터페이스)
 	
@@ -15,9 +15,7 @@ public class HandlerMapping {
 		mappings.put("/getBoardList.do", new GetBoardListController());
 		mappings.put("/updateBoard.do", new UpdateBoardController());
 		mappings.put("/deleteBoard.do", new DeleteBoardController());
-		mappings.put("/logout.do", new LogoutController());
-		
-
+		mappings.put("/logout.do", new LogoutController()); 
 	}
 	public Controller getController(String path) {
 		return mappings.get(path); 

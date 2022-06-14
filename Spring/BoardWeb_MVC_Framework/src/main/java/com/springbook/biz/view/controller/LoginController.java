@@ -10,7 +10,7 @@ public class LoginController implements Controller {
 
 	@Override
 	public String handlerRequest(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("로그인 처리 - Controller");
+		System.out.println("로그인 처리 - MVC FrameWork 호출 - Controller 분리");
 		
 		// 1. 사용자 입력 정보 추출
 					String id = request.getParameter("id");

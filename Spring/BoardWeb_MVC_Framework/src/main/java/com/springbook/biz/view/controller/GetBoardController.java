@@ -12,7 +12,7 @@ public class GetBoardController implements Controller {
 
 	@Override
 	public String handlerRequest(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("글 상세 조회 처리");
+		System.out.println("글 상세 조회 처리- MVC Framework - Controller 호출");
 		
 		// 1. 검색할 게시글 번호 추출
 		String seq = request.getParameter("seq");

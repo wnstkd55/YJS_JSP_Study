@@ -106,8 +106,8 @@ public class BoardDAO {
 	// 글 목록 조회
 	public List<BoardVO> getBoardList(BoardVO vo) {
 		System.out.println("===> JDBC로 getBoardList() 기능 처리");
-		System.out.println(vo.getSearchCondition());
-		System.out.println(vo.getSearchKeyword());
+		//System.out.println(vo.getSearchCondition());
+		//System.out.println(vo.getSearchKeyword());
 		List<BoardVO> boardList = new ArrayList<BoardVO>();
 		try {
 			conn = JDBCUtil.getConnection();
@@ -144,6 +144,8 @@ public class BoardDAO {
 				board.setRegdate(rs.getDate("REGDATE"));
 				board.setCnt(rs.getInt("CNT"));
 				boardList.add(board);
+				
+				//System.out.println("vo를 List에 저장 성공");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

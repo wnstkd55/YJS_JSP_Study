@@ -10,7 +10,7 @@ public class DeleteBoardController implements Controller {
 
 	@Override
 	public String handlerRequest(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("글 삭제 처리");
+		System.out.println("글 삭제 처리- MVC Framework - Controller 호출");
 		
 		// 1. 사용자 입력 정보 추출
 		String seq = request.getParameter("seq");

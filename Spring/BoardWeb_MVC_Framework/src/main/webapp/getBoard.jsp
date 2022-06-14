@@ -31,7 +31,7 @@
 				</tr>
 				<tr>
 					<td bgcolor="orange">등록일</td>
-					<td align="left">${board.regDate }</td>
+					<td align="left">${board.regdate }</td>
 				</tr>
 				<tr>
 					<td bgcolor="orange">조회수</td>
