@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=EUC-KR"%>
-<%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%> 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -12,24 +12,23 @@
 	<center>
 		<h1>글 목록</h1>
 		<h3>
-			 ${userName } 님 환영합니다...<a href="logout.do">Log-out</a>
+			${userName} 님 환영합니다...<a href="logout.do">Log-out</a>
 		</h3>
 		<!-- 검색 시작 -->
 		<form action="getBoardList.do" method="post">
 			<table border="1" cellpadding="0" cellspacing="0" width="700">
 				<tr>
 					<td align="right"><select name="searchCondition">
-							
+										
 							<c:forEach items = "${conditionMap }" var = "option">
-								<option value="${option.value }">	${option.key }</option>
+								<option value="${option.value }" > ${option.key } </option>
 							</c:forEach>
 							
 					</select> 
 					
 					
-					
 					<input name="searchKeyword" type="text" /> 
-					<input type="submit"value="검색" /></td>
+					<input type="submit" value="검색" /></td>
 				</tr>
 			</table>
 		</form>

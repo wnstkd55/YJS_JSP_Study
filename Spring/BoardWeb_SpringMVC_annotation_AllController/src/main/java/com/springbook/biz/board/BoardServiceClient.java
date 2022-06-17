@@ -29,7 +29,7 @@ public class BoardServiceClient {
 		
 
 		// 4. 글 목록 검색 기능 테스트
-		/*
+		
 		vo.setSearchCondition("TITLE");  //SQL의 TITLE 컬럼을 검색
 		vo.setSearchKeyword("모래");		// TITLE 컬럼의 값 "임시" 검색 
 	
@@ -37,7 +37,7 @@ public class BoardServiceClient {
 		for (BoardVO board : boardList) {
 			System.out.println("---> " + board.toString());
 		}
-		*/
+		
 
 		
 		// 5. Spring 컨테이너 종료

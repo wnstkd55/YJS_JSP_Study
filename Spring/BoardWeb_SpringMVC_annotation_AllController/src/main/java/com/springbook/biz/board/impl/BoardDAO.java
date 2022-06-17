@@ -48,6 +48,14 @@ public class BoardDAO {
 	// 글 수정
 	public void updateBoard(BoardVO vo) {
 		System.out.println("===> JDBC로 updateBoard() 기능 처리");
+		
+		System.out.println("번호 : " + vo.getSeq());
+		System.out.println("제목 : ");
+		System.out.println("작성자 : "+vo.getWriter());		//update에서 넘기는 변수가 설정안됨.
+		System.out.println("내용 : "+vo.getContent());
+		System.out.println("등록일: "+vo.getRegdate());
+		System.out.println("조회수: "+vo.getCnt());
+		
 		try {
 			conn = JDBCUtil.getConnection();
 			stmt = conn.prepareStatement(BOARD_UPDATE);
@@ -106,12 +114,17 @@ public class BoardDAO {
 	// 글 목록 조회
 	public List<BoardVO> getBoardList(BoardVO vo) {
 		System.out.println("===> JDBC로 getBoardList() 기능 처리");
-		System.out.println(vo.getSearchCondition());
-		System.out.println(vo.getSearchKeyword());
+		//System.out.println(vo.getSearchCondition());
+		//System.out.println(vo.getSearchKeyword());
 		List<BoardVO> boardList = new ArrayList<BoardVO>();
 		try {
 			conn = JDBCUtil.getConnection();
+			System.out.println("객체 생성 성공");
 			
+			stmt = conn.prepareStatement(BOARD_LIST);
+			rs = stmt.executeQuery();
+			
+			/*
 			if (vo.getSearchCondition().equals("") || vo.getSearchCondition()== null ) {
 				stmt = conn.prepareStatement(BOARD_LIST);
 				rs = stmt.executeQuery();
@@ -125,6 +138,7 @@ public class BoardDAO {
 				stmt.setString(1, vo.getSearchKeyword());
 				rs = stmt.executeQuery();
 			}
+			*/
 			
 			//stmt.setString(1, vo.getSearchKeyword());
 			//rs = stmt.executeQuery();
@@ -138,6 +152,8 @@ public class BoardDAO {
 				board.setRegdate(rs.getDate("REGDATE"));
 				board.setCnt(rs.getInt("CNT"));
 				boardList.add(board);
+				
+				//System.out.println("vo를 List에 저장 성공");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
