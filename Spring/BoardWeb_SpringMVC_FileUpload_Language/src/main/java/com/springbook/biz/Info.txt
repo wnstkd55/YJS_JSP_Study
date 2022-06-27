@@ -1,8 +1,0 @@
-
-XML 기반으로 Controller 셋팅
-1. Controller 클래스는 Spring Framework에서 제공해주는 Controller 클래스를 구현해야 한다.
-
-어노테이션 기반 Controller기반 세팅
-1. Controller 클래스 위에 @Controller 어노테이션을 할당.
-	@Controller를 사용해서 Controller를 구성할 경우 Spring FrameWork에서 제공해주는
-		Controller 인터페이스르 구현하지않아도 된다.			 
