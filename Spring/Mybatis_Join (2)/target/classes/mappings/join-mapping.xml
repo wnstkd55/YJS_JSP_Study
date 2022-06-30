@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="join">
+ 
+
+<resultMap type="emp" id="empMap">
+ <id property="employee_id" column = "EMPLOYEE_ID"/>
+ <result property="first_name" column = "FIRST_NAME"/>
+ <result property="last_name" column = "LAST_NAME"/>
+ <result property="email" column = "EMAIL"/>
+ <result property="phone_number" column = "PHONE_NUMBER"/>
+ <result property="hire_date" column = "HIRE_DATE"/>
+ <result property="job_id" column = "JOB_ID"/>
+ <result property="salary" column = "SALARY"/>
+ <result property="commission_pct" column = "COMMISSION_PCT"/>
+ <result property="manager_id" column = "MANAGER_ID"/>
+ <result property="department_id" column = "DEPARTMENT_ID"/>
+</resultMap>
+
+<resultMap type="dept" id="deptMap">
+   <id property="department_id" column="DEPARTMENT_ID" /> 
+   <result property="department_name" column="DEPARTMENT_NAME"></result>
+   <result property="manager_id" column="MANAGER_ID"></result>
+   <result property="location_id" column="LOCATION_ID"></result>
+</resultMap>
+
+<resultMap type="job_history_vo" id="jobhMap">
+   <id property="employee_id" column="DEPARTMENT_ID" /> 
+   <result property="start_date" column="START_DATE"></result>
+   <result property="end_date" column="END_DATE"></result>
+   <result property="job_id" column="JOB_ID"></result>
+   <result property="department_id" column="DEPARTMENT_ID"></result>
+</resultMap>
+
+<resultMap type="location_vo" id="locMap">
+   <id property="location_id" column="LOCATION_ID" /> 
+   <result property="street_address" column="STREET_ADDRESS"></result>
+   <result property="postal_code" column="POSTAL_CODE"></result>
+   <result property="city" column="CITY"></result>
+   <result property="state_province" column="STATE_PROVINCE"></result>
+   <result property="country_id" column="CONTRY_ID"></result>
+</resultMap>
+
+<!-- 두 ResultMap을 처리하는 ResultMap -->
+<resultMap type="joinvo2" id="joinMap">
+	<collection property="empJ" resultMap="empMap" />
+	<collection property="deptJ" resultMap="deptMap" />
+	<collection property="jobhJ" resultMap="jobhMap" />
+	<collection property="locJ" resultMap="locMap" />
+</resultMap>
+
+<insert id="insertJoin">
+	<![CDATA[
+
+	]]>
+</insert>
+
+<update id="updateJoin">
+	<![CDATA[
+
+	]]>
+
+</update>
+
+<delete id="deleteJoin">
+	<![CDATA[
+
+	]]>
+
+</delete>
+
+<select id="selectOneJoin" resultType="joinvo">
+	<![CDATA[
+
+	]]>
+</select>
+
+<select id="selectListJoin" resultMap="joinMap">
+	<![CDATA[
+		SELECT E.ENO, E.ENAME, E.JOB, E.MANAGER, E.HIREDATE, E.SALARY, E.COMMISSION, 
+		       D.DNO, D.DNAME, D.LOC
+		FROM EMPLOYEE E, DEPARTMENT D
+		WHERE E.DNO = D.DNO
+	]]>
+</select>
+
+<select id="selectListJoin2" resultType="end_vo">
+	<![CDATA[
+		SELECT E.ENO, E.ENAME, E.JOB, E.MANAGER, E.HIREDATE, E.SALARY, E.COMMISSION, 
+		       D.DNO, D.DNAME, D.LOC
+		FROM EMPLOYEE E, DEPARTMENT D
+		WHERE E.DNO = D.DNO
+	]]>
+</select>
+
+<select id="selectListJoin3" resultType="joinvo2">
+	<![CDATA[
+		select *
+		from employees e,
+		    departments d,
+		    locations l,
+		    job_history j
+		where e.department_id = d.department_id
+		    and d.location_id = l.location_id
+		    and j.job_id = e.job_id
+	]]>
+</select>
+
+
+</mapper>
